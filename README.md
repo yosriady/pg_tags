@@ -80,6 +80,15 @@ pg_tags defines the following scope and class methods.
 
 TODO
 
+## Running tests
+```
+rake test
+```
+Alternatively, if you have rspec installed globally, call in the project root directory:
+```
+rspec
+```
+
 ## Benchmark
 TODO
 

@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'pg_tags'
-  s.version     = '0.0.1'
+  s.version     = '0.0.0'
   s.date        = '2015-01-30'
   s.summary     = "pg_tags is a simple and high performance tagging gem for Rails using the PostgreSQL array type."
-  s.description = "pg_tags is a simple and high performance tagging gem for Rails using the PostgreSQL array type. An alternative to acts_as_taggable_on."
+  s.description = "pg_tags is a simple and high performance tagging gem for Rails using the PostgreSQL array type. An alternative to acts_as_taggable_on. Still a work in progress and not ready for use! "
   s.authors     = ["Yos Riady"]
   s.email       = 'yosriady@gmail.com'
   s.homepage    =
@@ -23,5 +23,4 @@ Gem::Specification.new do |s|
   # s.add_development_dependency "bundler", "~> 1.5"
   # s.add_development_dependency "rake"
   # s.add_development_dependency "rspec-rails"
-  # s.add_development_dependency "guard-rspec"
 end
