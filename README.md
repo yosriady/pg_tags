@@ -18,7 +18,7 @@ bundle
 
 ## Setup
 
-To use it, you need to have an array column to act as taggable.
+To use it, you need to have an array column for your tags.
 
 ```ruby
 class CreatePost < ActiveRecord::Migration
@@ -64,8 +64,6 @@ pg_tags defines the following scope and class methods.
 
 ## Usage
 
-Set, add and remove
-
 ```ruby
 #set
 @user.tags = ["awesome", "slick"]
@@ -80,28 +78,7 @@ Set, add and remove
 @user.tags -= ["awesome", "slick"]
 ```
 
-
-### All Tags
-
-Can get all tags easily.
-
-```ruby
-User.all_tags
-# ['awesome', 'slick']
-```
-
-As the same to tag cloud calculation, you can use block to add scopes to the query.
-
-
-```ruby
-User.all_tags { where name: ['ken', 'tom'] }
-```
-
-To handle the result tags named 'tag', prepend scopes.
-
-```ruby
-User.where('tag like ?', 'aws%').all_tags { where name: ['ken', 'tom'] }
-```
+TODO
 
 ## Benchmark
 TODO
@@ -112,5 +89,5 @@ TODO
 1. Fork it ( http://github.com/Leventhan/pg_tags/fork )
 2. Create your feature branch (`git checkout -b feature/my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
+4. Push to the branch (`git push origin feature/my-new-feature`)
 5. Create new Pull Request
