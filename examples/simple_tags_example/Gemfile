@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'pg'
+
 # pg_tags
-# gem 'pg_tags'
+gem 'pg_tags', :path => '/Users/yosriady/pg_tags/'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'

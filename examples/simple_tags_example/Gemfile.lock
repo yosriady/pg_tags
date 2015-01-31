@@ -1,3 +1,8 @@
+PATH
+  remote: /Users/yosriady/pg_tags
+  specs:
+    pg_tags (0.0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -117,6 +122,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   pg
+  pg_tags!
   rails (= 4.1.1)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

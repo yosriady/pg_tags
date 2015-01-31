@@ -2,19 +2,18 @@ module PgTags
   module Taggable
     def self.included(base)
       base.extend(ClassMethod)
-      base.initialize_pg_tags_related
     end
 
     module ClassMethod
       def has_tags(tag_name)
 
         #== Scopes
-        scope :"with_any_#{tag_name}", ->(tags){ where("#{tag_name} && ARRAY[?]::varchar[]", parser.parse(tags)) }
-        # with_all_#{tag_name}
+        scope :"with_any_#{tag_name}", ->(tags){ where("#{tag_name} && ARRAY[?]::varchar[]", tags) }
+        scope :"with_all_#{tag_name}", ->(tags){ where("#{tag_name} @> ARRAY[?]::varchar[]", tags) }
         # with_only_#{tag_name}
         # with_related_#{tag_name}
-        # without_any_#{tag_name}
-        # without_all_#{tag_name}
+        scope :"without_any_#{tag_name}", ->(tags){ where.not("#{tag_name} && ARRAY[?]::varchar[]", tags) }
+        scope :"without_all_#{tag_name}", ->(tags){ where.not("#{tag_name} @> ARRAY[?]::varchar[]", tags) }
 
         self.class.class_eval do
 
