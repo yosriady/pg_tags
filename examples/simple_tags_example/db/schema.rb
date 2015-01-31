@@ -13,12 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20150130093524) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "posts", force: true do |t|
-    t.string   "tags",       default: "{}"
+    t.string   "tags",       default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "posts", ["tags"], name: "index_posts_on_tags"
+  add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
 
 end

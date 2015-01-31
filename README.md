@@ -18,7 +18,9 @@ bundle
 
 ## Setup
 
-To use it, you need to have an array column for your tags.
+Configure your Rails app to use Postgres and the pg adapter gem, if you haven't already.
+To start using pg_tags, you need to have an array column for your tags.
+See the example schema migration:
 
 ```ruby
 class CreatePost < ActiveRecord::Migration
@@ -31,6 +33,7 @@ class CreatePost < ActiveRecord::Migration
   end
 end
 ```
+[GIN](http://www.postgresql.org/docs/9.1/static/textsearch-indexes.html) (Generalized Inverted Indexes) are best for static data such as tags because lookups are faster.
 
 and bundle:
 
