@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150130093524) do
+ActiveRecord::Schema.define(version: 20150131080637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20150130093524) do
     t.string   "tags",       default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "authors",    default: [], array: true
   end
 
+  add_index "posts", ["authors"], name: "index_posts_on_authors", using: :gin
   add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
 
 end
