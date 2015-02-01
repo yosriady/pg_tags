@@ -35,22 +35,22 @@ end
 ```
 [GIN](http://www.postgresql.org/docs/9.1/static/textsearch-indexes.html) (Generalized Inverted Indexes) are best for static data such as tags because lookups are faster.
 
-and bundle:
+Next, run your migration:
 
 ```shell
 rake db:migrate
 ```
 
-then
+Add the has_tags class annotation to your model:
 
 ```ruby
-class User < ActiveRecord::Base
+class Post < ActiveRecord::Base
   has_tags :tags
 end
 @post = Post.new
 ```
 
-pg_tags defines the following scope and class methods.
+That's it! pg_tags gives you the following scope and class methods:
 
 ### scopes
 
@@ -68,17 +68,7 @@ pg_tags defines the following scope and class methods.
 ## Usage
 
 ```ruby
-#set
-@user.tags = ["awesome", "slick"]
-@user.tags = '{awesome,slick}'
-
-#add
-@user.tags += ["awesome"]
-@user.tags += ["awesome", "slick"]
-
-#remove
-@user.tags -= ["awesome"]
-@user.tags -= ["awesome", "slick"]
+@post.tags = ["awesome", "slick"]
 ```
 
 TODO
