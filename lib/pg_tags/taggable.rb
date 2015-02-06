@@ -5,34 +5,36 @@ module PgTags
     end
 
     module ClassMethod
-      def has_tags(tag_name=:tags, options={})
+      def has_tags(*tag_types)
+        tag_types = tag_types.to_a.flatten.compact.map(&:to_sym)
 
-        #== Scopes
-        scope :"with_any_#{tag_name}", ->(tags){ where("#{tag_name} && ARRAY[?]::varchar[]", tags) }
-        scope :"with_all_#{tag_name}", ->(tags){ where("#{tag_name} @> ARRAY[?]::varchar[]", tags) }
-        # with_only_#{tag_name}
-        # with_similar_#{tag_name}
-        scope :"without_any_#{tag_name}", ->(tags){ where.not("#{tag_name} && ARRAY[?]::varchar[]", tags) }
-        scope :"without_all_#{tag_name}", ->(tags){ where.not("#{tag_name} @> ARRAY[?]::varchar[]", tags) }
+        class_eval do
+          class_attribute :tag_types
+          self.tag_types = tag_types
+        end
 
-        self.class.class_eval do
-          define_method :"all_#{tag_name}" do |options = {}, &block|
-            subquery_scope = unscoped.select("unnest(#{table_name}.#{tag_name}) as tag").uniq
-            subquery_scope = subquery_scope.instance_eval(&block) if block
+        tag_types.each do |tag_type|
+          #== Scopes
+          scope :"with_any_#{tag_type}", ->(tags){ where("#{tag_type} && ARRAY[?]::varchar[]", tags) }
+          scope :"with_all_#{tag_type}", ->(tags){ where("#{tag_type} @> ARRAY[?]::varchar[]", tags) }
+          scope :"without_any_#{tag_type}", ->(tags){ where.not("#{tag_type} && ARRAY[?]::varchar[]", tags) }
+          scope :"without_all_#{tag_type}", ->(tags){ where.not("#{tag_type} @> ARRAY[?]::varchar[]", tags) }
 
-            from(subquery_scope).pluck('tag')
+          self.class.class_eval do
+            define_method :"all_#{tag_type}" do |options = {}, &block|
+              subquery_scope = unscoped.select("unnest(#{table_name}.#{tag_type}) as tag").uniq
+              subquery_scope = subquery_scope.instance_eval(&block) if block
+
+              from(subquery_scope).pluck('tag')
+            end
+
+            define_method :"#{tag_type}_cloud" do |options = {}, &block|
+              subquery_scope = unscoped.select("unnest(#{table_name}.#{tag_type}) as tag")
+              subquery_scope = subquery_scope.instance_eval(&block) if block
+
+              from(subquery_scope).group('tag').order('tag').pluck('tag, count(*) as count')
+            end
           end
-
-          define_method :"#{tag_name}_cloud" do |options = {}, &block|
-            subquery_scope = unscoped.select("unnest(#{table_name}.#{tag_name}) as tag")
-            subquery_scope = subquery_scope.instance_eval(&block) if block
-
-            from(subquery_scope).group('tag').order('tag').pluck('tag, count(*) as count')
-          end
-
-          # {tag_name}s_cloud
-          # most_used_#{tag_name}s
-          # least_used_#{tag_name}s
         end
       end
     end
