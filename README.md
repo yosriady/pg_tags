@@ -41,14 +41,22 @@ Next, run your migration:
 rake db:migrate
 ```
 
-Add the has_tags class annotation to your model:
-
+Add the *has_tags* class annotation to your model. pg_tags uses the :tags column by default:
 ```ruby
 class Post < ActiveRecord::Base
-  has_tags :tags
+  has_tags
 end
-@post = Post.new
 ```
+
+In your rails console:
+@post = Post.new(tags: ["classical", "jazz", "guitar"])
+```
+
+For models with multiple tag columns, you can do the following (remember to migrate and index each tag column):
+```ruby
+has_tags :tags, :authors
+```
+
 
 That's it! pg_tags gives you the following scope and class methods:
 
